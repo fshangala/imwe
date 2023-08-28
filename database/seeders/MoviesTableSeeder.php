@@ -16,10 +16,13 @@ class MoviesTableSeeder extends Seeder
     {
         Movie::truncate();
         $fake = \Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 5; $i++){
             Movie::create([
                 "title"=>$fake->sentence(),
-                "description"=>$fake->paragraph()
+                "overview"=>$fake->paragraph(),
+                "runtime"=>$fake->numberBetween(80,180),
+                "language"=>$fake->word(),
+                "homepage"=>$fake->url()
             ]);
         }
     }

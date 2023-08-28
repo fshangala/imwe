@@ -18,7 +18,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/movies', [MovieController::class,'index']);
-Route::post('/movies/create', [MovieController::class,'create']);
-Route::post('/movies/{id}/upload',[MovieController::class,'upload']);
-Route::get('/movies/imdb',[MovieController::class,'create_by_tmdbid']);
+Route::prefix('movies')->controller(MovieController::class)->name("movies.")->group(function(){
+    Route::get('/', 'list')->name("list");
+    Route::post('/create', 'create')->name("create");
+    Route::prefix("{id}")->name("single.")->group(function(){
+        Route::get('/','show')->name("show");
+        Route::post('/update','update')->name("update");
+        Route::post('/upload','upload')->name("upload");
+        Route::post('/upload_video','upload_video')->name("upload_video");
+        Route::post('/upload_poster','upload_poster')->name("upload_poster");
+        Route::delete('/delete','delete')->name('delete');
+    });
+    Route::prefix("tmdb")->name("tmdb.")->group(function(){
+        Route::post('/search','tmdb_search')->name("search");
+        Route::post('/create','tmdb_create')->name("create");
+    });
+});
