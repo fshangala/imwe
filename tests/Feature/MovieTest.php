@@ -89,7 +89,7 @@ class MovieTest extends TestCase
         $response = $this->post(route("movies.tmdb.create"),[
             "tmdb_id"=>"272"
         ]);
-        $response->assertStatus(200);
+        $response->assertJson(["data"=>[]]);
         echo var_dump($response->json());
     }
 }

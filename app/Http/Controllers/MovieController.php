@@ -70,6 +70,28 @@ class MovieController extends Controller
             "tmdb_id"=>"required"
         ]);
         $tmdb = Tmdb::movies()->details($validated["tmdb_id"])->get();
-        return $tmdb;
+        $movie = Movie::where('tmdb_id',$validated['tmdb_id'])->first();
+        if($movie){
+            $movie->title = $tmdb["title"];
+            $movie->overview = $tmdb["overview"];
+            $movie->runtime = $tmdb["runtime"];
+            $movie->language = $tmdb["original_language"];
+            $movie->homepage = $tmdb["homepage"];
+            $movie->tmdb_id = $tmdb["id"];
+            $movie->imdb_id = $tmdb["imdb_id"];
+            $movie->release_date = $tmdb["release_date"];
+        } else {
+            $movie = new Movie();
+            $movie->title = $tmdb["title"];
+            $movie->overview = $tmdb["overview"];
+            $movie->runtime = $tmdb["runtime"];
+            $movie->language = $tmdb["original_language"];
+            $movie->homepage = $tmdb["homepage"];
+            $movie->tmdb_id = $tmdb["id"];
+            $movie->imdb_id = $tmdb["imdb_id"];
+            $movie->release_date = $tmdb["release_date"];
+        }
+        $movie->save();
+        return new MovieResource($movie);
     }
 }

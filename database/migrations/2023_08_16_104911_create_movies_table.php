@@ -20,11 +20,12 @@ class CreateMoviesTable extends Migration
             $table->integer("runtime");
             $table->string("language");
             $table->string("homepage")->nullable();
-            $table->bigInteger("tmdb_id")->nullable();
-            $table->bigInteger("imdb_id")->nullable();
+            $table->string("tmdb_id")->unique()->nullable();
+            $table->string("imdb_id")->unique()->nullable();
             $table->string("poster_path")->nullable();
             $table->string("video_path")->nullable();
-            $table->date("release_date")->nullable();
+            $table->string("trailer_url")->nullable();
+            $table->string("release_date")->nullable();
             $table->timestamps();
         });
     }

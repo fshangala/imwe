@@ -19,6 +19,7 @@ class Movie extends Model
         "imdb_id",
         "poster_path",
         "video_path",
+        'trailer_url',
         "release_date",
     ];
 }
