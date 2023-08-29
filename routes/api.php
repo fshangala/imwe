@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +34,14 @@ Route::prefix('movies')->controller(MovieController::class)->name("movies.")->gr
         Route::post('/search','tmdb_search')->name("search");
         Route::post('/create','tmdb_create')->name("create");
         Route::get('/get/{tmdb_id}','tmdb_get')->name("get");
+    });
+});
+Route::prefix('genre')->controller(GenreController::class)->name('genres.')->group(function(){
+    Route::get('/','index')->name('index');
+    Route::post('/create','store')->name('store');
+    Route::prefix('{genre}')->name('single.')->group(function(){
+        Route::get('/','show')->name('show');
+        Route::post('/update','update')->name('update');
+        Route::delete('/delete','destroy')->name('delete');
     });
 });

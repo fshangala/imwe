@@ -55,7 +55,6 @@ class MovieTest extends TestCase
     }
     public function test_delete()
     {
-        $fake = \Faker\Factory::create();
         $response = $this->delete(route("movies.single.delete",['id'=>3]));
         $response->assertStatus(200);
         echo var_dump($response->json());

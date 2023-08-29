@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use App\Http\Resources\GenreResource;
 
 class GenreController extends Controller
 {
@@ -14,15 +15,16 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
+        return GenreResource::collection(Genre::paginate());
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -35,7 +37,13 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:genres',
+            'tmdb_id'=>'runique:genres',
+            'imdb_id'=>'unique:genres',
+        ]);
+        $genre = Genre::create($request->all());
+        return new GenreResource($genre);
     }
 
     /**
@@ -46,7 +54,7 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        //
+        return new GenreResource($genre);
     }
 
     /**
@@ -69,7 +77,13 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        //
+        $request->validate([
+            'name'=>'unique:genres',
+            'tmdb_id'=>'runique:genres',
+            'imdb_id'=>'unique:genres',
+        ]);
+        $genre->update($request->all());
+        return new GenreResource($genre);
     }
 
     /**
@@ -80,6 +94,7 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
+        $genre->delete();
+        return new GenreResource($genre);
     }
 }
