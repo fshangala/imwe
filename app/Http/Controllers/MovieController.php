@@ -94,4 +94,8 @@ class MovieController extends Controller
         $movie->save();
         return new MovieResource($movie);
     }
+    public function tmdb_get($tmdb_id) {
+        $tmdb = Tmdb::movies()->details($tmdb_id)->get();
+        return $tmdb;
+    }
 }

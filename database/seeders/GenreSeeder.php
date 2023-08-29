@@ -1,0 +1,24 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Genre;
+
+class GenreSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Genre::truncate();
+        foreach (['Action','Adventure','Thriller'] as $value) {
+            Genre::create([
+                'name'=>$value
+            ]);
+        }
+    }
+}

@@ -32,5 +32,6 @@ Route::prefix('movies')->controller(MovieController::class)->name("movies.")->gr
     Route::prefix("tmdb")->name("tmdb.")->group(function(){
         Route::post('/search','tmdb_search')->name("search");
         Route::post('/create','tmdb_create')->name("create");
+        Route::get('/get/{tmdb_id}','tmdb_get')->name("get");
     });
 });
