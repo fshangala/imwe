@@ -22,4 +22,9 @@ class Movie extends Model
         'trailer_url',
         "release_date",
     ];
+
+    public function genres()
+    {
+        return $this->morphToMany(Genre::class,'genreable');
+    }
 }
