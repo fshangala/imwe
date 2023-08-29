@@ -1,3 +1,10 @@
+# Imwe
+## Getting started
+### Steps
+- Copy the file `.env.example` to `.env` and fill out the database and tmdb fields
+- Create a database named in the `.env` file in your configured database and run migrations with `php artisan migrate`
+- Seed the database with the command `php artisan db:seed`
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
