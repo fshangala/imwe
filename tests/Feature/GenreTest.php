@@ -49,4 +49,10 @@ class GenreTest extends TestCase
         $response->assertStatus(200);
         echo var_dump($response->json());
     }
+    public function test_genre_tmdb_collect()
+    {
+        $response = $this->get(route('genres.tmdb.collect'));
+        $response->assertStatus(200);
+        echo var_dump($response->json());
+    }
 }

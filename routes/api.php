@@ -29,6 +29,8 @@ Route::prefix('movies')->controller(MovieController::class)->name("movies.")->gr
         Route::post('/upload_video','upload_video')->name("upload_video");
         Route::post('/upload_poster','upload_poster')->name("upload_poster");
         Route::delete('/delete','delete')->name('delete');
+        Route::post('/add_genres','add_genres')->name('add_genres');
+        Route::post('/remove_genres','remove_genres')->name('remove_genres');
     });
     Route::prefix("tmdb")->name("tmdb.")->group(function(){
         Route::post('/search','tmdb_search')->name("search");
@@ -43,5 +45,8 @@ Route::prefix('genre')->controller(GenreController::class)->name('genres.')->gro
         Route::get('/','show')->name('show');
         Route::post('/update','update')->name('update');
         Route::delete('/delete','destroy')->name('delete');
+    });
+    Route::prefix("tmdb")->name("tmdb.")->group(function(){
+        Route::get('/','tmdb_collect')->name('collect');
     });
 });

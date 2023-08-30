@@ -77,6 +77,20 @@ class MovieTest extends TestCase
         $response->assertStatus(200);
         echo var_dump($response->json());
     }
+    public function test_movie_add_genres() {
+        $response = $this->post(route('movies.single.add_genres',['id'=>1]),[
+            'genre_ids'=>[1,2,3]
+        ]);
+        $response->assertStatus(200);
+        echo var_dump($response->json());
+    }
+    public function test_movie_remove_genres() {
+        $response = $this->post(route('movies.single.remove_genres',['id'=>1]),[
+            'genre_ids'=>[1,2,3]
+        ]);
+        $response->assertStatus(200);
+        echo var_dump($response->json());
+    }
     public function test_tmdb_search() {
         $response = $this->post(route("movies.tmdb.search"),[
             "query"=>"batman"

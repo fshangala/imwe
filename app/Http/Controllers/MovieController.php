@@ -59,6 +59,42 @@ class MovieController extends Controller
         $movie->save();
         return new MovieResource($movie);
     }
+    public function add_genres(Request $request, $id) {
+        $validated = $request->validate([
+            "genre_ids"=>"required"
+        ]);
+
+        $movie = Movie::findOrFail($id);
+        $movie_genre_ids = [];
+        foreach($movie->genres as $movie_genre) {
+            array_push($movie_genre_ids,$movie_genre->id);
+        }
+        foreach($validated['genre_ids'] as $genre_id) {
+            if(!in_array($genre_id,$movie_genre_ids)){
+                $movie->genres()->attach($genre_id);
+            }
+        }
+        $movie->fresh();
+        return new MovieResource($movie);
+    }
+    public function remove_genres(Request $request, $id) {
+        $validated = $request->validate([
+            "genre_ids"=>"required"
+        ]);
+
+        $movie = Movie::findOrFail($id);
+        $movie_genre_ids = [];
+        foreach($movie->genres as $movie_genre) {
+            array_push($movie_genre_ids,$movie_genre->id);
+        }
+        foreach($validated['genre_ids'] as $genre_id) {
+            if(in_array($genre_id,$movie_genre_ids)){
+                $movie->genres()->detach($genre_id);
+            }
+        }
+        $movie->fresh();
+        return new MovieResource($movie);
+    }
     public function tmdb_search(Request $request) {
         $validated = $request->validate([
             "query"=>"required"
@@ -94,13 +130,15 @@ class MovieController extends Controller
         }
         $movie->save();
         foreach($tmdb['genres'] as $tmdb_genre){
-            $genre = Genre::where('name',$tmdb_genre['name'])->first();
-            if ($genre == null) {
-                $genre = Genre::create([
-                    'name'=>$tmdb_genre['name']
-                ]);
-                $movie->genres()->attach($genre->id);
-            } else {
+            $genre = Genre::firstOrCreate(['name'=>$tmdb_genre['name']],['name'=>$tmdb_genre['name']]);
+            $exists = false;
+            foreach($movie->genres as $movie_genre){
+                if($movie_genre->name == $tmdb_genre['name']){
+                    $exists = true;
+                    break;
+                }
+            }
+            if(!$exists){
                 $movie->genres()->attach($genre->id);
             }
         }
