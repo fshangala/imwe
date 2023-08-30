@@ -22,7 +22,7 @@ class MovieTest extends TestCase
         echo var_dump($response->json());
         $response->assertStatus(200);
     }
-    public function test_show() {
+    public function test_movies_show() {
         $response = $this->get(route("movies.single.show",["id"=>1]));
         echo var_dump($response->json());
         $response->assertStatus(200);

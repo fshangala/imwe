@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MovieResource;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use CodeBugLab\Tmdb\Facades\Tmdb;
@@ -92,6 +93,17 @@ class MovieController extends Controller
             $movie->release_date = $tmdb["release_date"];
         }
         $movie->save();
+        foreach($tmdb['genres'] as $tmdb_genre){
+            $genre = Genre::where('name',$tmdb_genre['name'])->first();
+            if ($genre == null) {
+                $genre = Genre::create([
+                    'name'=>$tmdb_genre['name']
+                ]);
+                $movie->genres()->attach($genre->id);
+            } else {
+                $movie->genres()->attach($genre->id);
+            }
+        }
         return new MovieResource($movie);
     }
     public function tmdb_get($tmdb_id) {

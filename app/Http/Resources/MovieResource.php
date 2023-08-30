@@ -25,7 +25,8 @@ class MovieResource extends JsonResource
             "imdb_id"=>$this->imdb_id,
             "poster_path"=>$this->poster_path,
             "video_path"=>$this->video_path,
-            "release_date"=>$this->release_date
+            "release_date"=>$this->release_date,
+            'genres'=> GenreResource::collection($this->genres)
         ];
     }
 }

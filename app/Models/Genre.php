@@ -14,4 +14,9 @@ class Genre extends Model
         'tmdb_id',
         'imdb_id'
     ];
+
+    public function movies()
+    {
+        return $this->morphedByMany(Movie::class,'genreable');
+    }
 }
